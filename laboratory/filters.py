@@ -30,13 +30,17 @@ class Filters:
                               command=self.average).pack()
         self.button6 = Button(text='Average All', width=10,
                               command=self.average_allneighbors).pack()
+        self.button7 = Button(text='Negative', width=10,
+                              command=self.negative).pack()
+        self.button8 = Button(text='Sepia', width=10,
+                              command=self.sepia).pack()
         self.button_exit = Button(text='Exit', width=10,
                               command=self.root.destroy).pack()
         self.root.mainloop()
 
     def open_image(self, image_file_path):
         image = Image.open(image_file_path)
-        image.thumbnail((300, 200), Image.ANTIALIAS)
+        image.thumbnail((400, 300), Image.ANTIALIAS)
         return image
 
     def convert_to_imagetk(self, image):
@@ -86,8 +90,8 @@ class Filters:
     def thresholds(self):
         print 'Thresholds'
         width, height = self.get_image_size(self.image)
-        level_min = 60
-        level_max = 180
+        level_min = 100
+        level_max = 200
 
         for w in range(width):
             for h in range(height):
@@ -95,8 +99,10 @@ class Filters:
                 gray = (r+g+b)/3
                 if gray < level_min:
                     self.image.putpixel((w, h), (0, 0, 0))
-                if gray > level_max:
+                elif gray > level_max:
                     self.image.putpixel((w, h), (255, 255, 255))
+                else:
+                    self.image.putpixel((w, h), (gray, gray, gray))
         self.reset_window()
 
     def average(self):
@@ -141,14 +147,47 @@ class Filters:
                     self.image.putpixel((w, h), (r, g, b))
         self.reset_window()
 
+    def negative(self):
+        print 'Negative'
+        width, height = self.get_image_size(self.image)
+
+        for w in range(width):
+            for h in range(height):
+                r, g, b = self.image.getpixel((w, h))
+                gray = (r+g+b)/3
+                self.image.putpixel((w, h), (255-r, 255-g, 255-b))
+        self.reset_window()
+
+    def sepia(self):
+        print 'Sepia'
+        width, height = self.get_image_size(self.image)
+        sepia_intensity = 25
+
+        for w in range(width):
+            for h in range(height):
+                r, g, b = self.image.getpixel((w, h))
+                gray = (r+g+b)/3
+                r = gray + (sepia_intensity * 2)
+                g = gray + sepia_intensity
+                b = gray - sepia_intensity
+
+                if r > 255:
+                    r = 255
+                if g > 255:
+                    g = 255
+                if b < 0:
+                    b = 0
+                self.image.putpixel((w, h), (r, g, b))
+        self.reset_window()
+
 def main():
-    try:
+    if len(sys.argv) > 1:
         image_file_path = sys.argv[1]
         if os.path.isfile(image_file_path):
             Filters(image_file_path)
         else:
             print 'Image file does not exist'
-    except:
+    else:
         print 'First parameter must be an image file name'
 
 if __name__ == '__main__':
