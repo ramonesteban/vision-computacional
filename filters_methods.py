@@ -4,7 +4,7 @@ def get_image_size(image):
     width, height = image.size
     return (width, height)
 
-def black_and_white(image, gray_base):
+def binarization(image, gray_base):
     width, height = get_image_size(image)
 
     for w in range(width):

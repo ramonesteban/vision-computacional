@@ -75,7 +75,7 @@ class Edges:
         '''
         image = self.convolution(h, f)
         image = average_allneighbors(image)
-        image = black_and_white(image, 18)
+        image = binarization(image, 18)
         end = time.time()
         print end - start
         self.update_image(image)
