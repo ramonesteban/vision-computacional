@@ -5,7 +5,6 @@ def get_image_size(image):
     return (width, height)
 
 def binarization(image, gray_base):
-    print 'Black and white'
     width, height = get_image_size(image)
 
     for w in range(width):
@@ -19,7 +18,6 @@ def binarization(image, gray_base):
     return image
 
 def grayscale(image):
-    print 'Grayscale'
     width, height = get_image_size(image)
 
     for w in range(width):
@@ -30,7 +28,6 @@ def grayscale(image):
     return image
 
 def thresholds(image, level_min, level_max):
-    print 'Thresholds'
     width, height = get_image_size(image)
 
     for w in range(width):
@@ -45,7 +42,6 @@ def thresholds(image, level_min, level_max):
     return image
 
 def average(image):
-    print 'Average'
     width, height = get_image_size(image)
     image_copy = image
 
@@ -64,7 +60,6 @@ def average(image):
     return image
 
 def average_allneighbors(image):
-    print 'Average With All Neighbors'
     width, height = get_image_size(image)
     image_copy = image
 
@@ -87,7 +82,6 @@ def average_allneighbors(image):
     return image
 
 def negative(image):
-    print 'Negative'
     width, height = get_image_size(image)
 
     for w in range(width):
@@ -98,7 +92,6 @@ def negative(image):
     return image
 
 def sepia(image, sepia_intensity=25):
-    print 'Sepia'
     width, height = get_image_size(image)
 
     for w in range(width):
